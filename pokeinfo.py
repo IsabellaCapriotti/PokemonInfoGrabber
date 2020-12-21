@@ -103,12 +103,15 @@ def getPokemonInfo():
             print('Lv:', details[0].get_text() + '     ' + 'Move:', details[1].get_text() + '     ' + 'Type:', details[2].get_text())
 
         #Learned by TM/TR
-        movesTable = soup.find(class_='tabset-moves-game').find("h3", string='Moves learnt by TM').find_next_sibling(class_='resp-scroll').tbody.find_all('tr')
+        movesTable = soup.find(class_='tabset-moves-game').find("h3", string='Moves learnt by TM')
+        
+        if movesTable is not None:
+            movesTable = movesTable.find_next_sibling(class_='resp-scroll').tbody.find_all('tr')
             
-        print('\nLearned by TM:\n')
-        for move in movesTable:
-            details = move.find_all('td')
-            print('TM No:', details[0].get_text() + '     ' + 'Move:', details[1].get_text() + '     ' + 'Type:', details[2].get_text())
+            print('\nLearned by TM:\n')
+            for move in movesTable:
+                details = move.find_all('td')
+                print('TM No:', details[0].get_text() + '     ' + 'Move:', details[1].get_text() + '     ' + 'Type:', details[2].get_text())
 
         
         movesTable = soup.find(class_='tabset-moves-game').find("h3", string='Moves learnt by TR').find_next_sibling(class_='resp-scroll').tbody.find_all('tr')
@@ -149,7 +152,6 @@ def getTypeInfo():
     typeLists = soup.find_all(class_='grid-row')[1].find_all(class_='type-fx-list')
     nameStrings = soup.find_all(class_='grid-row')[1].find_all(class_='icon-string')
 
-    print(nameStrings)
     #Name
     print('*'*centerOffset)
     print((typeName.capitalize() + ' Type').center(centerOffset))
